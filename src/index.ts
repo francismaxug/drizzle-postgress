@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import productsRoute from "./routes/products.route"
+import handleError from "./middleware/customError"
 
 dotenv.config()
 
@@ -16,4 +17,14 @@ app.use("/api/v1", productsRoute)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
+})
+
+app.use(handleError)
+
+//-----------------404 route----------------------
+app.all("*", (req, res) => {
+  res.status(404).json({
+    status: "fail",
+    message: `Can't find ${req.originalUrl} on this server`,
+  })
 })

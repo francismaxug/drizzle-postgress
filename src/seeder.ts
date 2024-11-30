@@ -1,17 +1,18 @@
 import { db } from "./models"
 import { productsTable } from "./models/schemas/productSchema"
+import { items } from "./utils/constance"
 
 const importData = async () => {
   try {
-    const product: typeof productsTable.$inferInsert = {
-      name: "John Doe",
-      price: 100,
-      description: "This is a description",
-      image: "https://example.com/image.jpg",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-    await db.insert(productsTable).values(product)
+    // const product: typeof productsTable.$inferInsert = {
+    //   name: "John Doe",
+    //   price: 100,
+    //   description: "This is a description",
+    //   image: "https://example.com/image.jpg",
+    //   createdAt: new Date(),
+    //   updatedAt: new Date(),
+    // }
+    await db.insert(productsTable).values(items.map(item=>({...item}))).execute()
 
     console.log("Data imported successfully")
   } catch (error) {
